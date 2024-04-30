@@ -1,47 +1,35 @@
 import streamlit as st
-import random
-import time
+from openai import OpenAI
 
-# Pre-determined responses
-def response_generator():
-    response = random.choice(
-        [
-            "Hello there! How can I assist you today?",
-            "Hi! Is there anything I can help you with?",
-            "What can I help you with?",
-        ]
-    )
-    # slows down the responses
-    for word in response.split(): 
-        yield word + " "
-        time.sleep(0.05)
 
-st.title("Simple Chatbot GUI")
+st.title("ChatGPT-like clone")
 
-# Chat History
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
+if "openai_model" not in st.session_state:
+    st.session_state["openai_model"] = "gpt-3.5-turbo"
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Display Old Messages
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# Response
-if prompt := st.chat_input("Message Simple Bot"):
-    # Add their message to history
+if prompt := st.chat_input("What is up?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
-
-    # Display the user's message
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Display assistant's response
     with st.chat_message("assistant"):
-        response = st.write_stream(response_generator())
-
-    #Add assistant response to chat history
+        stream = client.chat.completions.create(
+            model=st.session_state["openai_model"],
+            messages=[
+                {"role": m["role"], "content": m["content"]}
+                for m in st.session_state.messages
+            ],
+            stream=True,
+        )
+        response = st.write_stream(stream)
     st.session_state.messages.append({"role": "assistant", "content": response})
-
-
 
