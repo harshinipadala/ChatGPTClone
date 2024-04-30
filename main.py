@@ -1,6 +1,22 @@
 import streamlit as st
+import random
+import time
 
-st.title("EchoBot")
+# Pre-determined responses
+def response_generator():
+    response = random.choice(
+        [
+            "Hello there! How can I assist you today?",
+            "Hi! Is there anything I can help you with?",
+            "What can I help you with?",
+        ]
+    )
+    # slows down the responses
+    for word in response.split(): 
+        yield word + " "
+        time.sleep(0.05)
+
+st.title("Simple Chatbot GUI")
 
 # Chat History
 if "messages" not in st.session_state:
@@ -12,15 +28,20 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # Response
-if prompt := st.chat_input("Message EchoBot"):
-    # Display the user's message
-    st.chat_message("user").markdown(prompt)
+if prompt := st.chat_input("Message Simple Bot"):
     # Add their message to history
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    response = f"Echo: {prompt}"
-    # Display the response
+    # Display the user's message
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    # Display assistant's response
     with st.chat_message("assistant"):
-        st.markdown(response)
-    # Add response to history
+        response = st.write_stream(response_generator())
+
+    #Add assistant response to chat history
     st.session_state.messages.append({"role": "assistant", "content": response})
+
+
+
