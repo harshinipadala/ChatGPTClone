@@ -1,8 +1,12 @@
 import streamlit as st
 from openai import OpenAI
 
-
 st.title("ChatGPT clone")
+
+st.sidebar.subheader("About")
+st.sidebar.markdown("""
+This is a ChatGPT clone built using Streamlit and OpenAI's GPT-3.5. It allows for interactive chatting with an AI assistant.
+""")
 
 api_key = st.sidebar.text_input("Enter your OpenAI API key:")
 client = OpenAI(api_key=api_key)
@@ -34,3 +38,29 @@ if prompt := st.chat_input("What is up?"):
         response = st.write_stream(stream)
     st.session_state.messages.append({"role": "assistant", "content": response})
 
+
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown(" ")
+st.sidebar.markdown("Created by Harshini Padala")
+st.sidebar.markdown("Powered by Streamlit and OpenAI")
