@@ -4,7 +4,7 @@ from openai import OpenAI
 
 st.title("ChatGPT clone")
 
-api_key = st.text_input("Enter your OpenAI API key:")
+api_key = st.sidebar.text_input("Enter your OpenAI API key:")
 client = OpenAI(api_key=api_key)
 
 if "openai_model" not in st.session_state:
