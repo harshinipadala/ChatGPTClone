@@ -1,5 +1,6 @@
 import streamlit as st
 from openai import OpenAI
+from PyPDF2 import PdfFileReader
 
 
 st.title("ChatGPT clone")
@@ -42,7 +43,7 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-if prompt := st.chat_input("What is up?"):
+if prompt := st.chat_input("What can I help you with?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
