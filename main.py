@@ -12,6 +12,8 @@ st.sidebar.markdown("---")
 
 api_key = st.text_input("Enter your OpenAI API key to begin:")
 client = OpenAI(api_key=api_key)
+st.markdown("###### [Get an OpenAI API Key](https://platform.openai.com/api-keys)")
+
 
 uploaded_file = st.sidebar.file_uploader("# Upload a PDF file", type=["pdf"])
 
