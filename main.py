@@ -1,6 +1,6 @@
 import streamlit as st
 from openai import OpenAI
-from PyPDF2 import PdfFileReader
+from PyPDF2 import PdfReader
 
 
 st.title("ChatGPT clone")
@@ -10,7 +10,6 @@ st.sidebar.markdown("""
 This is a ChatGPT clone built using Streamlit and OpenAI's GPT-3.5. It allows for interactive chatting with an AI assistant. """)
 st.sidebar.markdown("---")
 
-st.sidebar.markdown(" ")
 api_key = st.text_input("Enter your OpenAI API key to begin:")
 client = OpenAI(api_key=api_key)
 
@@ -18,16 +17,16 @@ uploaded_file = st.sidebar.file_uploader("# Upload a PDF file", type=["pdf"])
 
 if uploaded_file is not None:
     # Read the PDF file
-    pdf_reader = PdfFileReader(uploaded_file)
-    num_pages = pdf_reader.getNumPages()
+    pdf_reader = PdfReader(uploaded_file)
+    num_pages = len(pdf_reader.pages)
 
     # Display the number of pages
     st.write(f"Number of pages in the PDF: {num_pages}")
 
     # Display each page of the PDF
     for page_num in range(num_pages):
-        page = pdf_reader.getPage(page_num)
-        page_text = page.extractText()
+        page = pdf_reader.pages[page_num]
+        page_text = page.extract_text()
         st.write(f"Page {page_num + 1}:")
         st.write(page_text)
 else:
@@ -63,7 +62,6 @@ if prompt := st.chat_input("What can I help you with?"):
 
 
 st.sidebar.markdown("---")
-st.sidebar.markdown(" ")
 
 st.sidebar.markdown("Created by Harshini Padala")
 st.sidebar.markdown("Powered by Streamlit and OpenAI")
